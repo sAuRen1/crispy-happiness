@@ -610,3 +610,45 @@ body {
     }
 
 }
+/* =========================
+АНИМАЦИИ
+========================= */
+
+.hidden{
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s ease;
+}
+
+.show{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================
+КНОПКА НАВЕРХ
+========================= */
+
+.to-top{
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+
+    width: 50px;
+    height: 50px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: olivedrab;
+    color: white;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: none;
+
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
