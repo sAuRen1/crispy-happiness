@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Центр развития и реабилитации «Пирамидка»</title>
-    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 <body>
 
+    <!-- HEADER -->
     <header class="header">
         <div class="header-container">
             <nav class="nav">
@@ -19,38 +20,33 @@
                     <li><a href="#contact">КОНТАКТЫ</a></li>
                 </ul>
             </nav>
-
         </div>
     </header>
 
-    <section  id="shapka" class="shapka">
-        <div class="shapka-bam" > 
-            
+    <!-- HERO -->
+    <section id="shapka" class="shapka">
+        <div class="shapka-bam">
             <div class="piramidka">
-                <img src="images/пирамидка.jpg">
+                <img src="{{ url_for('static', filename='images/пирамидка.jpg') }}" alt="Пирамидка">
             </div>
-
             <div class="infa-shapka">
-                
-                <h1>
-                    Центр развития и реабилитации 
-                </h1>
-                
+                <h1>Центр развития и реабилитации</h1>
                 <ul>
                     <li>Особый подход к каждому!</li>
                     <li>Высококвалифицированные специалисты</li>
                     <li>Занимаемся подготовкой к школе</li>
                 </ul>
-                
             </div>
-        </div>   
-    </section >
+        </div>
+    </section>
 
-    <section  id="infuslugi" class="uslugi">
+    <!-- SERVICES -->
+    <section id="infuslugi" class="uslugi">
         <div class="con-uslugi">
             <h1>Услуги</h1>
+            
             <div class="card-usligi">
-                <img src="icons/1.png">
+                <img src="{{ url_for('static', filename='icons/1.png') }}" alt="Иконка 1">
                 <h1>Систему обучения</h1>
                 <p>
                     Разработанную с учетом возрастных и 
@@ -60,7 +56,7 @@
             </div>
 
             <div class="card-usligi">
-                <img src="icons/2.png">
+                <img src="{{ url_for('static', filename='icons/2.png') }}" alt="Иконка 2">
                 <h1>Серию лучших учебно-методических
                     мероприятий(семинаров/вебинаров)</h1>
                 <p>
@@ -72,7 +68,7 @@
             </div>
 
             <div class="card-usligi">
-                <img src="icons/3.png">
+                <img src="{{ url_for('static', filename='icons/3.png') }}" alt="Иконка 3">
                 <h1>Очные и онлайн (дистанционные) занятия</h1>
                 <p>
                     Для детей с расстройством аутистического спектра, 
@@ -81,7 +77,7 @@
             </div>
 
             <div class="card-usligi">
-                <img src="icons/4.png">
+                <img src="{{ url_for('static', filename='icons/4.png') }}" alt="Иконка 4">
                 <h1>Разработку индивидуальных планов обучения</h1>
                 <p>
                     На основе методов и процедур прикладного анализа поведения, 
@@ -90,7 +86,7 @@
             </div>
 
             <div class="card-usligi">
-                <img src="icons/5.png">
+                <img src="{{ url_for('static', filename='icons/5.png') }}" alt="Иконка 5">
                 <h1>Программы</h1>
                 <p>
                     Составляемые в соответствии с российским образовательным 
@@ -100,27 +96,24 @@
             </div>
 
             <div class="card-usligi">
-                <img src="icons/6.png">
+                <img src="{{ url_for('static', filename='icons/6.png') }}" alt="Иконка 6">
                 <h1>Систему подготовки</h1>
                 <p>
                     Для сдачи различных международных экзаменов.
                 </p>
             </div>
-
         </div>
-
     </section>
 
-    <section  id="infonas" class="onas">
-
+    <!-- ABOUT -->
+    <section id="infonas" class="onas">
         <div class="cononas">
             <h1>О НАС</h1>
+            
             <div class="onas1">
-                <img src="images/onas1.jfif">
-                <h1>
-                    Наша миссия и подход
-                </h1>
-                <P>
+                <img src="{{ url_for('static', filename='images/onas1.jfif') }}" alt="О нас 1">
+                <h1>Наша миссия и подход</h1>
+                <p>
                     Мы — Центр развития навыков и поведения для детей 
                     с РАС «Раскраски АБА». Наша миссия — помогать детям 
                     с расстройством аутистического спектра раскрывать свой потенциал, 
@@ -130,14 +123,12 @@
                     уделяя внимание развитию ключевых навыков: коммуникации, 
                     самообслуживания, социального взаимодействия, академических 
                     и жизненно важных умений.
-                </P>
+                </p>
             </div>
 
             <div class="onas2">
-                <img src="images/onas2.jfif">
-                <h1>
-                    Индивидуальный путь развития и поддержка для всей семьи
-                </h1>
+                <img src="{{ url_for('static', filename='images/onas2.jfif') }}" alt="О нас 2">
+                <h1>Индивидуальный путь развития и поддержка для всей семьи</h1>
                 <p>
                     Наша работа начинается с тщательной 
                     диагностики с использованием международных 
@@ -149,43 +140,37 @@
                 </p>
             </div>
         </div>
-
     </section>
-    <section  id="pedagog" class="pedagog">
 
+    <!-- PEDAGOG -->
+    <section id="pedagog" class="pedagog">
         <h1 class="pedagog-title">Наши специалисты</h1>
-
         <div class="pedagog-card">
-
             <div class="card">
-                <img src="images/pedagog1.jfif" alt="Педагог">
+                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
                 <h2>Имя Фамилия</h2>
                 <p>Логопед, опыт работы более 10 лет.</p>
             </div>
-
             <div class="card">
-                <img src="images/pedagog1.jfif" alt="Педагог">
+                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
                 <h2>Имя Фамилия</h2>
                 <p>ABA-терапевт. Индивидуальный подход к каждому ребенку.</p>
             </div>
-
             <div class="card">
-                <img src="images/pedagog1.jfif" alt="Педагог">
+                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
                 <h2>Имя Фамилия</h2>
                 <p>Психолог. Работает с детьми дошкольного возраста.</p>
             </div>
-
             <div class="card">
-                <img src="images/pedagog1.jfif" alt="Педагог">
+                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
                 <h2>Имя Фамилия</h2>
                 <p>Дефектолог. Подготовка к школе и развитие речи.</p>
             </div>
-
         </div>
-
     </section>
-    <section id="contact" class="contact">
 
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
         <div class="contact-container">
             <h1 class="contact-title">Контакты</h1>
             <div class="contact-content">
@@ -200,7 +185,7 @@
                         <input type="email" placeholder="Электронная почта">
                         <input type="tel" placeholder="Телефон">
                         <textarea placeholder="Ваше сообщение"></textarea>
-                        <button>Отправить</button>
+                        <button type="submit">Отправить</button>
                     </form>
                 </div>
                 <div class="contact-info">
@@ -230,5 +215,6 @@
             </div>
         </div>
     </section>
+
 </body>
 </html>
