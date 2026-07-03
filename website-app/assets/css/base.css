@@ -1,4 +1,6 @@
-/* 1. Базовые сбросы отступов */
+/* ==========================================================================
+   1. БАЗОВЫЕ НАСТРОЙКИ И ЦВЕТОВАЯ ПАЛИТРА
+   ========================================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,47 +9,53 @@
 
 html {
     scroll-behavior: smooth;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    /* Мягкий общий фон сайта: благородный кремово-белый */
+    background-color: #fbfbfa; 
 }
 
-/* Отступ сверху равен высоте плашки меню, чтобы контент под неё не подлезал при старте */
 body {
-    padding-top: 60px; 
+    padding-top: 70px;
+    color: #2c3e2e; /* Глубокий темно-зеленый оттенок вместо резкого черного текста */
+    overflow-x: hidden;
 }
 
-/* 2. НАВИГАЦИЯ: ВСЕГДА ПРИКЛЕЕНА СВЕРХУ ЭКРАНА */
+/* ==========================================================================
+   2. НАВИГАЦИЯ (HEADER)
+   ========================================================================== */
 .header {
-    position: fixed;   /* Фиксирует элемент относительно экрана */
-    top: 0;            /* Прижимает к самому верху */
-    left: 0;           /* Прижимает к левому краю */
-    width: 100%;       /* Растягивает на всю ширину */
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999;     /* Гарантирует, что меню будет ПОВЕРХ абсолютно всех других разделов сайта */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Полупрозрачный белый фон с эффектом размытия заднего плана — выглядит очень дорого */
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(107, 142, 35, 0.06);
+    z-index: 9999;
 }
 
-/* Контейнер внутри меню */
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 15px 20px;
+    padding: 18px 20px;
 }
 
-/* Сетка пунктов навигации */
 .nav ul {
     display: flex;
-    justify-content: center; /* Центрирует ссылки на плашке */
+    justify-content: center;
     list-style: none;
-    gap: 30px;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
 .nav a {
     text-decoration: none;
-    color: #333333;
-    font-weight: bold;
-    font-size: 0.9rem;
+    color: #4a5d4b;
+    font-weight: 700;
+    font-size: 0.95rem;
     letter-spacing: 1px;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .nav a:hover, 
@@ -55,116 +63,276 @@ body {
     color: olivedrab;
 }
 
-/* 3. ГЛАВНЫЙ БЛОК (ШАПКА) */
+/* ==========================================================================
+   3. ГЛАВНЫЙ БЛОК (ШАПКА SITE)
+   ========================================================================== */
 .shapka {
-    background-color: olivedrab;
+    /* Красивый градиент: от сочного оливкового к чуть более глубокому травяному */
+    background: linear-gradient(135deg, olivedrab 0%, #557223 100%);
     color: #ffffff;
-    padding: 60px 20px;
+    padding: 100px 20px;
     display: flex;
     justify-content: center;
+    width: 100%;
+    position: relative;
 }
 
-/* Вертикальное выравнивание элементов строго по центру */
+/* Декоративная плавная волна снизу шапки, чтобы разбавить геометрию */
+.shapka::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #f1f4ed; /* Переход в цвет следующего блока */
+    clip-path: ellipse(60% 100% at 50% 100%);
+}
+
 .shapka-bam {
-    display: flex;
-    flex-direction: column; /* Большой логотип сверху, текст снизу */
-    align-items: center;    /* Центрирование по горизонтали */
-    text-align: center;     /* Центрирование текста внутри */
-    max-width: 800px;
-    width: 100%;
-    height: auto;           /* Автоматическая высота, чтобы ничего не сжималось */
-    gap: 35px;              /* Расстояние между логотипом и текстом */
-}
-
-/* Большой логотип по центру */
-.piramidka img {
-    max-width: 280px;
-    width: 100%;
-    height: auto;
-    border-radius: 15px;    /* Скругление углов картинки */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Текст и описание под логотипом */
-.infa-shapka h1 {
-    font-size: 2.5rem;
-    margin-bottom: 25px;
-}
-
-.infa-shapka ul {
-    list-style: none;       /* Без стандартных точек */
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    font-size: 1.2rem;
-}
-
-/*услуги/*
-
-/* --- СТИЛИ ДЛЯ РАЗДЕЛА УСЛУГ --- */
-
-/* Главный контейнер всей секции услуг */
-.uslugi {
-    max-width: 1200px;
-    margin: 80px auto; /* Отступы сверху и снизу, чтобы отделить от шапки */
-    padding: 0 20px;
-}
-
-/* Общая сетка: выстраивает карточки в ряд и переносит их, если не влезают */
-.con-uslugi {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Центрирует карточки на странице */
-    gap: 30px; /* Расстояние между карточками */
-}
-
-/* Стиль для отдельной карточки услуги */
-.card-usligi {
-    flex: 1;
-    min-width: 300px; /* Минимальная ширина карточки */
-    max-width: 360px; /* Максимальная ширина, чтобы текст не размазывался */
-    background-color: #ffffff;
-    border-radius: 15px; /* Скругление углов карточки */
-    padding: 30px 20px;
-    text-align: center; /* Центрирование картинок и текста внутри */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Мягкая тень */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    max-width: 850px;
+    width: 100%;
+    height: auto;
+    gap: 40px;
+    z-index: 2;
 }
 
-/* Эффект при наведении мышки на карточку */
+.piramidka img {
+    max-width: 260px;
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    /* Золотисто-оливковое свечение вокруг главного логотипа */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 25px rgba(218, 165, 32, 0.2);
+}
+
+.infa-shapka h1 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.infa-shapka ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+/* Элегантные маркеры перед пунктами в шапке */
+.infa-shapka ul li::before {
+    content: '✦';
+    color: #ffe680; /* Теплый нежно-желтый акцент */
+    margin-right: 10px;
+    font-size: 1.4rem;
+    vertical-align: middle;
+}
+
+/* ==========================================================================
+   4. РАЗДЕЛ "УСЛУГИ"
+   ========================================================================== */
+.uslugi {
+    /* Нежный фисташково-зеленый фон для всего раздела */
+    background-color: #f1f4ed; 
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.con-uslugi {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.card-usligi {
+    flex: 1;
+    min-width: 290px;
+    max-width: 360px;
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: center;
+    /* Очень мягкая натуральная тень */
+    box-shadow: 0 8px 30px rgba(107, 142, 35, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(107, 142, 35, 0.08);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+/* Интерактивный эффект: карточка приподнимается, а рамка окрашивается в оливковый */
 .card-usligi:hover {
-    transform: translateY(-5px); /* Карточка плавно приподнимается */
-    box-shadow: 0 8px 25px rgba(128, 128, 0, 0.15); /* Тень становится ярче с оттенком olivedrab */
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(107, 142, 35, 0.12);
+    border-color: olivedrab;
 }
 
-/* Стилизация картинок-иконок в кружочек */
 .card-usligi img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover; /* Картинка заполняет кружок без искажений */
-    border-radius: 50%; /* Делает картинку идеально круглой */
-    border: 4px solid olivedrab; /* Красивый ободок в цвет стиля сайта */
-    margin-bottom: 20px; /* Отступ снизу до заголовка */
-    background-color: #f9f9f9; /* Фон внутри кружка, если иконка прозрачная */
-    padding: 10px; /* Внутренний отступ, чтобы иконка не прижималась к краям круга */
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    /* Теплый темно-желтый (горчичный/песочный) ободок вокруг круглых иконок */
+    border: 4px solid #e0b034; 
+    margin-bottom: 25px;
+    background-color: #fbfbfa;
+    padding: 12px;
 }
 
-/* Главный текст (Заголовки внутри карточек) */
 .card-usligi h1 {
-    color: #1a2e5a; /* Глубокий темно-синий цвет */
-    font-size: 1.3rem; /* Комфортный размер для заголовка карточки */
+    color: #1a2e5a; /* Ваш любимый глубокий темно-синий */
+    font-size: 1.4rem;
     margin-bottom: 15px;
+    font-weight: 700;
     line-height: 1.3;
-    font-weight: bold;
 }
 
-/* Основной текст описания */
 .card-usligi p {
-    color: #000000; /* Чистый черный цвет */
-    font-size: 0.95rem;
-    line-height: 1.6; /* Увеличили межстрочный интервал для легкого чтения */
-    margin-top: auto; /* Выталкивает текст к одному уровню, если заголовки разной высоты */
+    color: #4a554a; /* Темный графитово-зеленый текст */
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   5. СЕКЦИЯ "О НАС"
+   ========================================================================== */
+.onas {
+    /* Чистый белый фон, чтобы визуально отделить его от фисташковых Услуг */
+    background-color: #ffffff; 
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.cononas {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+}
+
+/* Главный заголовок О НАС */
+.cononas > h1 {
+    color: #1a2e5a; 
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    align-self: center;
+}
+
+/* Нежное оливковое подчеркивание под заголовком "О нас" */
+.cononas > h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: olivedrab;
+    border-radius: 2px;
+    margin: 10px auto 0 auto;
+}
+
+.onas1 h1, .onas2 h1 {
+    color: #1a2e5a; /* Темно-синий */
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.onas1 p, .onas2 p, .onas1 P {
+    color: #4a4a4a; /* Спокойный благородный серый */
+    font-size: 1.05rem;
+    line-height: 1.75;
+    text-align: justify;
+}
+
+/* Красивое оформление фотографий "О нас" */
+.onas1 img, .onas2 img {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 16px;
+    /* Оливково-зеленая мягкая тень под фотографиями */
+    box-shadow: 0 15px 40px rgba(107, 142, 35, 0.1);
+    border: 1px solid rgba(107, 142, 35, 0.1);
+}
+
+/* --- СЕТКА ДЛЯ БЛОКА 1 (Бок о бок) --- */
+.onas1 {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.onas1 img { grid-column: 1; grid-row: 1 / 3; }
+.onas1 h1 { margin-top: 150px;  grid-column: 2; grid-row: 1; }
+.onas1 p, .onas1 P { grid-column: 2; grid-row: 2; }
+
+/* --- СЕТКА ДЛЯ БЛОКА 2 (Бок о бок) --- */
+.onas2 {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 60px;
+    align-items: start;
+}
+
+.onas2 h1 { grid-column: 1; grid-row: 1; }
+.onas2 p { grid-column: 1; grid-row: 2; }
+.onas2 img { grid-column: 2; grid-row: 1 / 3; }
+
+/* ==========================================================================
+   6. МОБИЛЬНАЯ АДАПТИВНОСТЬ
+   ========================================================================== */
+@media (max-width: 992px) {
+    .onas1 { grid-template-columns: 300px 1fr; gap: 40px; }
+    .onas2 { grid-template-columns: 1fr 300px; gap: 40px; }
+    .onas1 img, .onas2 img { max-width: 300px; }
+    .infa-shapka h1 { font-size: 2.4rem; }
+}
+
+@media (max-width: 768px) {
+    body { padding-top: 90px; }
+    .nav ul { gap: 15px; }
+    .shapka { padding: 70px 15px; }
+    .infa-shapka h1 { font-size: 2rem; }
+    .infa-shapka ul { font-size: 1.1rem; }
+    .uslugi { padding: 60px 15px; }
+
+    .onas1, .onas2 {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .onas1 img, .onas2 img {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .onas1 h1, .onas2 h1 {
+        text-align: center;
+        font-size: 1.6rem;
+    }
+
+    .onas1 p, .onas2 p, .onas1 P {
+        text-align: left;
+    }
 }
