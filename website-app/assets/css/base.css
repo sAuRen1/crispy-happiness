@@ -1,0 +1,145 @@
+/* =========================
+   ОБЩИЕ СБРОСЫ
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7fa;
+    color: #222;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.logo h2 {
+    font-size: 20px;
+    color: #2c3e50;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    color: #3498db;
+}
+
+.nav a.active {
+    color: #3498db;
+}
+
+/* =========================
+   HERO / SHAPKA
+========================= */
+
+.shapka {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.piramidka img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   TEXT BLOCK
+========================= */
+
+.infa-shapka h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.infa-shapka ul {
+    list-style: none;
+}
+
+.infa-shapka li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.infa-shapka li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #3498db;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .shapka {
+        flex-direction: column;
+        text-align: center;
+    }
+}
