@@ -435,3 +435,178 @@ body {
     }
 
 }
+/*==========================
+        КОНТАКТЫ
+==========================*/
+
+.contact{
+    padding:100px 20px;
+    background:#fcfcfc;
+}
+
+.contact-container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.contact-title{
+    text-align:center;
+    font-size:2.8rem;
+    color:#1a2e5a;
+    margin-bottom:60px;
+    position:relative;
+}
+
+.contact-title::after{
+    content:"";
+    width:80px;
+    height:4px;
+    background:olivedrab;
+    display:block;
+    margin:18px auto 0;
+    border-radius:10px;
+}
+
+.contact-content{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:50px;
+}
+
+/* ======== Форма ======== */
+
+.contact-form{
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.contact-form h2{
+    color:#1a2e5a;
+    margin-bottom:15px;
+}
+
+.contact-form p{
+    color:#666;
+    margin-bottom:30px;
+    line-height:1.7;
+}
+
+.contact-form form{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.contact-form input,
+.contact-form textarea{
+
+    width:100%;
+    padding:15px 20px;
+
+    border:1px solid #ddd;
+    border-radius:12px;
+
+    font-size:16px;
+
+    transition:.3s;
+}
+
+.contact-form textarea{
+
+    height:170px;
+    resize:none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+
+    outline:none;
+    border-color:olivedrab;
+    box-shadow:0 0 10px rgba(107,142,35,.2);
+}
+
+.contact-form button{
+
+    width:220px;
+
+    padding:16px;
+
+    border:none;
+    border-radius:12px;
+
+    background:olivedrab;
+    color:#fff;
+
+    font-size:17px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.contact-form button:hover{
+
+    background:#556b2f;
+
+    transform:translateY(-3px);
+}
+
+/* ======== Правая часть ======== */
+
+.contact-info{
+
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.info-card{
+
+    background:#fff;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.info-card:hover{
+
+    transform:translateY(-5px);
+}
+
+.info-card h3{
+
+    color:#1a2e5a;
+
+    margin-bottom:12px;
+}
+
+.info-card p{
+
+    color:#666;
+
+    line-height:1.7;
+}
+
+/* ======== Адаптив ======== */
+
+@media(max-width:900px){
+
+    .contact-content{
+
+        grid-template-columns:1fr;
+    }
+
+    .contact-form button{
+
+        width:100%;
+    }
+
+}
