@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка - Анкеты</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Все заявки ({{ anketas|length }})</h1>
+    <a href="/">← На главную</a>
+    
+    <table>
+        <tr>
+            <th>Дата</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Сообщение</th>
+        </tr>
+        {% for anketa in anketas %}
+        <tr>
+            <td>{{ anketa.date.strftime('%d.%m.%Y %H:%M') }}</td>
+            <td>{{ anketa.name }}</td>
+            <td>{{ anketa.email or '-' }}</td>
+            <td>{{ anketa.phone or '-' }}</td>
+            <td>{{ anketa.message or '-' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
