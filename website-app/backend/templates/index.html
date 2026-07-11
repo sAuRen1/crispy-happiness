@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 <body>
-
+    <!-- Flash сообщения -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div style="padding: 15px; margin: 20px auto; max-width: 800px; border-radius: 8px; 
+                            background-color: #d4edda; color: #155724; text-align: center; font-weight: bold;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <!-- HEADER -->
     <header class="header">
         <div class="header-container">
@@ -181,11 +191,11 @@
                         Если у вас появились вопросы, заполните форму ниже,
                         и мы обязательно свяжемся с вами.
                     </p>
-                    <form>
-                        <input type="text" placeholder="Ваше имя">
-                        <input type="email" placeholder="Электронная почта">
-                        <input type="tel" placeholder="Телефон">
-                        <textarea placeholder="Ваше сообщение"></textarea>
+                    <form method="POST">
+                        <input type="text" name="name" placeholder="Ваше имя" required>
+                        <input type="email" name="email" placeholder="Электронная почта">
+                        <input type="tel" name="phone" placeholder="Телефон">
+                        <textarea name="message" placeholder="Ваше сообщение" rows="5"></textarea>
                         <button type="submit">Отправить</button>
                     </form>
                 </div>
