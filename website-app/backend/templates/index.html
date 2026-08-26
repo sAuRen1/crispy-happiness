@@ -3,38 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Центр развития и реабилитации «Пирамидка» — индивидуальные занятия для детей с РАС по методике ABA. Подготовка к школе, консультации для родителей и специалистов в Москве.">
-    <meta name="keywords" content="РАС, аутизм, ABA терапия, прикладной анализ поведения, логопед, дефектолог, подготовка к школе, реабилитация детей, Москва">
+    <meta name="description" content="Центр развития «Пирамидка» — гармоничное развитие ребёнка в малых группах: опытные педагоги, современные методики, индивидуальный подход.">
+    <meta name="keywords" content="детский центр развития, подготовка к школе, малые группы, творческие занятия, Пирамидка">
     <meta name="author" content="Центр Пирамидка">
-    
-    <title>Центр развития и реабилитации «Пирамидка» | ABA-терапия для детей с РАС</title>
-    
+
+    <title>Центр развития «Пирамидка» — запишитесь на пробное занятие</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <!-- Favicon (добавим позже) -->
 </head>
 <body>
     <!-- Flash сообщения -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div style="padding: 15px; margin: 20px auto; max-width: 800px; border-radius: 8px; 
+                <div style="padding: 15px; margin: 20px auto; max-width: 800px; border-radius: 8px;
                             background-color: #d4edda; color: #155724; text-align: center; font-weight: bold;">
                     {{ message }}
                 </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
+
     <!-- HEADER -->
     <header class="header">
         <div class="header-container">
             <nav class="nav">
                 <ul>
                     <li><a href="#shapka" class="active">ГЛАВНАЯ</a></li>
-                    <li><a href="#infuslugi">УСЛУГИ</a></li>
-                    <li><a href="#infonas">О НАС</a></li>
-                    <li><a href="#">ПРАЙС</a></li>
-                    <li><a href="#pedagog">ПЕДАГОГИ</a></li>
-                    <li><a href="#contact">КОНТАКТЫ</a></li>
+                    <li><a href="#why-us">ПОЧЕМУ МЫ</a></li>
+                    <li><a href="#approach">НАШ ПОДХОД</a></li>
+                    <li><a href="#faq">ВОПРОСЫ</a></li>
+                    <li><a href="#booking">ЗАПИСЬ</a></li>
                 </ul>
             </nav>
         </div>
@@ -47,191 +46,194 @@
                 <img src="{{ url_for('static', filename='images/пирамидка.jpg') }}" alt="Пирамидка">
             </div>
             <div class="infa-shapka">
-                <h1>Центр развития и реабилитации</h1>
+                <h1>Центр развития «Пирамидка»</h1>
                 <ul>
-                    <li>Особый подход к каждому!</li>
+                    <li>Особый подход к каждому ребёнку</li>
                     <li>Высококвалифицированные специалисты</li>
-                    <li>Занимаемся подготовкой к школе</li>
+                    <li>Подготовка к школе и творческие занятия</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- SERVICES -->
-    <section id="infuslugi" class="uslugi">
-        <div class="con-uslugi">
-            <h1>Услуги</h1>
-            
-            <div class="card-usligi">
-                <img src="{{ url_for('static', filename='icons/1.png') }}" alt="Иконка 1">
-                <h1>Систему обучения</h1>
-                <p>
-                    Разработанную с учетом возрастных и 
-                    индивидуальных сенсорных особенностей
-                    в развитии ребенка с РАС;
-                </p>
+    <!-- ПОЧЕМУ РОДИТЕЛИ ВЫБИРАЮТ НАС -->
+    <section id="why-us" class="why-us">
+        <h2 class="section-title">Почему родители выбирают нас?</h2>
+        <p class="section-subtitle">
+            Мы создали идеальные условия для гармоничного развития, чтобы каждый
+            ребёнок мог раскрыть свой потенциал в комфорте.
+        </p>
+
+        <div class="why-grid">
+            <div class="why-card card-usligi">
+                <img src="{{ url_for('static', filename='icons/1.png') }}" alt="Опытные педагоги">
+                <h3>Опытные педагоги</h3>
+                <p>Команда профессионалов с любовью к детям.</p>
             </div>
 
-            <div class="card-usligi">
-                <img src="{{ url_for('static', filename='icons/2.png') }}" alt="Иконка 2">
-                <h1>Серию лучших учебно-методических
-                    мероприятий(семинаров/вебинаров)</h1>
-                <p>
-                    Для изучения дисциплины прикладного 
-                    анализа поведения как родителей детей 
-                    с расстройством аутистического спектра, 
-                    так и практикующим специалистам в этой сфере;
-                </p>
+            <div class="why-card card-usligi">
+                <img src="{{ url_for('static', filename='icons/2.png') }}" alt="Безопасная среда">
+                <h3>Безопасная среда</h3>
+                <p>Полностью адаптированное пространство для игр и обучения.</p>
             </div>
 
-            <div class="card-usligi">
-                <img src="{{ url_for('static', filename='icons/3.png') }}" alt="Иконка 3">
-                <h1>Очные и онлайн (дистанционные) занятия</h1>
-                <p>
-                    Для детей с расстройством аутистического спектра, 
-                    родителей, специалистов.
-                </p>
+            <div class="why-card card-usligi">
+                <img src="{{ url_for('static', filename='icons/3.png') }}" alt="Малые группы">
+                <h3>Малые группы</h3>
+                <p>Внимание каждому ребёнку для лучшей адаптации и усвоения знаний.</p>
             </div>
 
-            <div class="card-usligi">
-                <img src="{{ url_for('static', filename='icons/4.png') }}" alt="Иконка 4">
-                <h1>Разработку индивидуальных планов обучения</h1>
-                <p>
-                    На основе методов и процедур прикладного анализа поведения, 
-                    экспериментально доказанными результатами на основе исследований.
-                </p>
+            <div class="why-card card-usligi">
+                <img src="{{ url_for('static', filename='icons/4.png') }}" alt="Современные методики">
+                <h3>Современные методики</h3>
+                <p>Используем только проверенные и эффективные программы развития.</p>
             </div>
 
-            <div class="card-usligi">
-                <img src="{{ url_for('static', filename='icons/5.png') }}" alt="Иконка 5">
-                <h1>Программы</h1>
-                <p>
-                    Составляемые в соответствии с российским образовательным 
-                    стандартом нового поколения, а также с международными требованиями 
-                    сертификационной комиссии ВАСВ;
-                </p>
+            <div class="why-card card-usligi">
+                <img src="{{ url_for('static', filename='icons/5.png') }}" alt="Творческая атмосфера">
+                <h3>Творческая атмосфера</h3>
+                <p>Помогаем раскрыть творческий потенциал вашего малыша.</p>
             </div>
 
-            <div class="card-usligi">
-                <img src="{{ url_for('static', filename='icons/6.png') }}" alt="Иконка 6">
-                <h1>Систему подготовки</h1>
-                <p>
-                    Для сдачи различных международных экзаменов.
-                </p>
+            <div class="why-card card-usligi">
+                <img src="{{ url_for('static', filename='icons/6.png') }}" alt="Индивидуальный подход">
+                <h3>Индивидуальный подход</h3>
+                <p>Учитываем особенности, интересы и темп развития каждого ребёнка.</p>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="infonas" class="onas">
-        <div class="cononas">
-            <h1>О НАС</h1>
-            
-            <div class="onas1">
-                <img src="{{ url_for('static', filename='images/onas1.jfif') }}" alt="О нас 1">
-                <h1>Наша миссия и подход</h1>
-                <p>
-                    Мы — Центр развития навыков и поведения для детей 
-                    с РАС «Раскраски АБА». Наша миссия — помогать детям 
-                    с расстройством аутистического спектра раскрывать свой потенциал, 
-                    используя научно доказанные методы прикладного анализа поведения 
-                    (ПАП). Мы предлагаем индивидуальные и групповые занятия для 
-                    разных возрастных групп — от малышей с 2 лет до подростков, 
-                    уделяя внимание развитию ключевых навыков: коммуникации, 
-                    самообслуживания, социального взаимодействия, академических 
-                    и жизненно важных умений.
-                </p>
-            </div>
+    <!-- НАШ ПОДХОД -->
+    <section id="approach" class="approach">
+        <h2 class="section-title">Наш подход</h2>
+        <p class="section-subtitle">
+            Начните путь вашего ребёнка к большим открытиям уже сегодня. Мы предлагаем
+            уникальную программу, адаптированную под интересы и потребности каждого возраста.
+        </p>
 
-            <div class="onas2">
-                <img src="{{ url_for('static', filename='images/onas2.jfif') }}" alt="О нас 2">
-                <h1>Индивидуальный путь развития и поддержка для всей семьи</h1>
-                <p>
-                    Наша работа начинается с тщательной 
-                    диагностики с использованием международных 
-                    инструментов оценки (VB-MAPP, ABLLS-R, AFLS и др.), 
-                    на основе которой для каждого ребенка составляется 
-                    индивидуальная программа обучения. Мы также готовим 
-                    специалистов ПАП через систему супервизий и поддерживаем родителей, 
-                    проводя обучающие семинары по эффективным и гуманным методам воспитания и развития детей с РАС в домашних условиях
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- PEDAGOG -->
-    <section id="pedagog" class="pedagog">
-        <h1 class="pedagog-title">Наши специалисты</h1>
-        <div class="pedagog-card">
-            <div class="card">
-                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
-                <h2>Имя Фамилия</h2>
-                <p>Логопед, опыт работы более 10 лет.</p>
-            </div>
-            <div class="card">
-                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
-                <h2>Имя Фамилия</h2>
-                <p>ABA-терапевт. Индивидуальный подход к каждому ребенку.</p>
-            </div>
-            <div class="card">
-                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
-                <h2>Имя Фамилия</h2>
-                <p>Психолог. Работает с детьми дошкольного возраста.</p>
-            </div>
-            <div class="card">
-                <img src="{{ url_for('static', filename='images/pedagog1.jfif') }}" alt="Педагог">
-                <h2>Имя Фамилия</h2>
-                <p>Дефектолог. Подготовка к школе и развитие речи.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="contact">
-        <div class="contact-container">
-            <h1 class="contact-title">Контакты</h1>
-            <div class="contact-content">
-                <div class="contact-form">
-                    <h2>Свяжитесь с нами</h2>
+        <div class="approach-list">
+            <div class="approach-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h3>Знакомство и диагностика</h3>
                     <p>
-                        Если у вас появились вопросы, заполните форму ниже,
-                        и мы обязательно свяжемся с вами.
+                        Приглашаем на первую встречу, чтобы понять интересы ребёнка
+                        и подобрать группу, где ему будет максимально комфортно развиваться.
                     </p>
-                    <form method="POST">
-                        <input type="text" name="name" placeholder="Ваше имя" required>
-                        <input type="email" name="email" placeholder="Электронная почта">
-                        <input type="tel" name="phone" placeholder="Телефон">
-                        <textarea name="message" placeholder="Ваше сообщение" rows="5"></textarea>
-                        <button type="submit">Отправить</button>
-                    </form>
                 </div>
-                <div class="contact-info">
-                    <div class="info-card">
-                        <h3>Адрес</h3>
-                        <p>
-                            г. Москва<br>
-                            ул. Примерная, 10
-                        </p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Телефон</h3>
-                        <p>+7 (999) 999-99-99</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Email</h3>
-                        <p>info@example.ru</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>График работы</h3>
-                        <p>
-                            Пн–Пт: 09:00–18:00<br>
-                            Сб–Вс: выходной
-                        </p>
-                    </div>
+            </div>
+
+            <div class="approach-step">
+                <div class="step-number">2</div>
+                <div>
+                    <h3>Индивидуальный план</h3>
+                    <p>
+                        Разрабатываем персональную стратегию обучения, которая учитывает
+                        темп развития и таланты вашего малыша для лучшего результата.
+                    </p>
+                </div>
+            </div>
+
+            <div class="approach-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h3>Увлекательные занятия</h3>
+                    <p>
+                        Погружаем детей в мир знаний через творчество, игры и общение,
+                        создавая среду, где каждый день становится маленьким открытием.
+                    </p>
+                    <img src="{{ url_for('static', filename='images/onas1.jfif') }}" alt="Занятия в центре Пирамидка">
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+        <h2 class="section-title">Часто задаваемые вопросы</h2>
+        <p class="section-subtitle">Ответы на популярные вопросы о нашем центре.</p>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>С какого возраста можно прийти?</summary>
+                <p>Мы принимаем детей от 2 до 12 лет — группы формируются по возрасту и уровню развития.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Сколько детей в группе?</summary>
+                <p>Группы малочисленные — до 6 человек, чтобы педагог мог уделить внимание каждому ребёнку.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Нужна ли подготовка к занятиям?</summary>
+                <p>Нет, специальная подготовка не нужна. Возьмите с собой сменную обувь и хорошее настроение.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Как записаться на пробное?</summary>
+                <p>Заполните форму ниже или напишите нам в Telegram, WhatsApp, VK или Instagram — мы свяжемся с вами и подберём удобное время.</p>
+            </details>
+        </div>
+    </section>
+
+    <!-- ЗАПИСЬ -->
+    <section id="booking" class="booking">
+        <h2 class="section-title">Запись</h2>
+        <div class="booking-container">
+            <div class="booking-form">
+                <p class="lead">Оставьте заявку, и мы свяжемся с вами для уточнения деталей вашего первого визита.</p>
+
+                <form method="POST">
+                    <div>
+                        <label for="name">Имя</label>
+                        <input type="text" id="name" name="name" placeholder="Как к вам обращаться" required>
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label for="phone">Связь</label>
+                        <input type="text" id="phone" name="phone" placeholder="Телефон или @telegram">
+                    </div>
+                    <div>
+                        <label for="message">Комментарий</label>
+                        <textarea id="message" name="message" placeholder="Расскажите немного о ребёнке"></textarea>
+                    </div>
+
+                    <label class="consent">
+                        <input type="checkbox" required>
+                        <span>
+                            Отправляя эту форму, вы соглашаетесь с
+                            <a href="#">Политикой конфиденциальности</a>,
+                            <a href="#">Пользовательским соглашением</a> и даёте
+                            <a href="#">согласие на обработку персональных данных</a> в соответствии с 152-ФЗ.
+                        </span>
+                    </label>
+
+                    <button type="submit">Отправить</button>
+                </form>
+
+                <div class="social-links">
+                    <!-- TODO(Макс): подставь реальные ссылки на свои соцсети -->
+                    <a href="#" target="_blank" rel="noopener">✈️ Telegram</a>
+                    <a href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+                    <a href="#" target="_blank" rel="noopener">🔵 VK</a>
+                    <a href="#" target="_blank" rel="noopener">📷 Instagram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <strong>Пирамидка</strong>
+        <div class="footer-links">
+            <a href="#">Политика конфиденциальности</a>
+            <a href="#">Условия использования</a>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

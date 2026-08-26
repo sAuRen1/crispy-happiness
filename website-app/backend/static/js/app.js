@@ -65,7 +65,10 @@ const observer = new IntersectionObserver(entries => {
     threshold: 0.15
 });
 
-document.querySelectorAll(".card, .card-usligi, .teacher-card").forEach(el => {
+// FAQ сознательно не добавляем сюда: это содержательный, а не декоративный
+// блок, и прятать ответы за анимацией появления — плохая идея (если IntersectionObserver
+// почему-то не сработает вовремя при быстрой прокрутке, пользователь просто не увидит текст).
+document.querySelectorAll(".card, .card-usligi, .why-card, .approach-step").forEach(el => {
     el.classList.add("hidden");
     observer.observe(el);
 });

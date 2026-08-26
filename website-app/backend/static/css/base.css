@@ -1,5 +1,29 @@
 /* ==========================================================================
-   1. БАЗОВЫЕ НАСТРОЙКИ И ЦВЕТОВАЯ ПАЛИТРА
+   1. ЦВЕТОВАЯ ПАЛИТРА (design tokens)
+   --------------------------------------------------------------------------
+   Все цвета сайта собраны здесь, в переменных. Если завтра решишь чуть
+   изменить оттенок зелёного — правишь одну строку, а не ищешь его
+   по всему файлу. Это и есть системный подход к цвету в CSS.
+   ========================================================================== */
+:root {
+    --white:        #ffffff;
+    --cream:        #fffdf6;   /* тёплый почти-белый фон под секции-карточки */
+
+    --yellow-soft:  #fff3d6;   /* светло-желтый — фон "лёгких" секций */
+    --yellow-warm:  #ffd166;   /* насыщенный жёлтый — акценты, обводки иконок */
+
+    --green:        #6fa84b;   /* основной зелёный — кнопки, ссылки, акценты */
+    --green-dark:   #3b6b33;   /* тёмно-зелёный — фон "тяжёлых" секций */
+    --green-darker: #2b4e26;   /* ещё темнее — для градиентов и hover */
+
+    --text-dark:    #263524;   /* основной текст — не чёрный, а тёмно-зелёный */
+    --text-muted:   #5b6b55;   /* второстепенный текст */
+
+    --shadow-green: rgba(59, 107, 51, 0.14);
+}
+
+/* ==========================================================================
+   2. БАЗОВЫЕ НАСТРОЙКИ
    ========================================================================== */
 * {
     box-sizing: border-box;
@@ -10,28 +34,46 @@
 html {
     scroll-behavior: smooth;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    /* Мягкий общий фон сайта: благородный кремово-белый */
-    background-color: #fbfbfa; 
+    background-color: var(--cream);
 }
 
 body {
     padding-top: 70px;
-    color: #2c3e2e; /* Глубокий темно-зеленый оттенок вместо резкого черного текста */
+    color: var(--text-dark);
     overflow-x: hidden;
 }
 
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.section-subtitle {
+    max-width: 640px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
 /* ==========================================================================
-   2. НАВИГАЦИЯ (HEADER)
+   3. НАВИГАЦИЯ (HEADER)
    ========================================================================== */
 .header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    /* Полупрозрачный белый фон с эффектом размытия заднего плана — выглядит очень дорого */
     background-color: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(107, 142, 35, 0.06);
+    box-shadow: 0 4px 20px var(--shadow-green);
     z-index: 9999;
 }
 
@@ -51,25 +93,24 @@ body {
 
 .nav a {
     text-decoration: none;
-    color: #4a5d4b;
+    color: var(--text-dark);
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 1px;
     transition: all 0.3s ease;
 }
 
-.nav a:hover, 
+.nav a:hover,
 .nav a.active {
-    color: olivedrab;
+    color: var(--green);
 }
 
 /* ==========================================================================
-   3. ГЛАВНЫЙ БЛОК (ШАПКА SITE)
+   4. ГЛАВНЫЙ БЛОК (HERO)
    ========================================================================== */
 .shapka {
-    /* Красивый градиент: от сочного оливкового к чуть более глубокому травяному */
-    background: linear-gradient(135deg, olivedrab 0%, #557223 100%);
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+    color: var(--white);
     padding: 100px 20px;
     display: flex;
     justify-content: center;
@@ -77,7 +118,6 @@ body {
     position: relative;
 }
 
-/* Декоративная плавная волна снизу шапки, чтобы разбавить геометрию */
 .shapka::after {
     content: '';
     position: absolute;
@@ -85,7 +125,7 @@ body {
     left: 0;
     width: 100%;
     height: 30px;
-    background-color: #f1f4ed; /* Переход в цвет следующего блока */
+    background-color: var(--yellow-soft); /* переход в цвет следующего блока */
     clip-path: ellipse(60% 100% at 50% 100%);
 }
 
@@ -102,12 +142,11 @@ body {
 }
 
 .piramidka img {
-    max-width: 260px;
+    max-width: 220px;
     width: 100%;
     height: auto;
     border-radius: 30px;
-    /* Золотисто-оливковое свечение вокруг главного логотипа */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 25px rgba(218, 165, 32, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 25px rgba(255, 209, 102, 0.35);
 }
 
 .infa-shapka h1 {
@@ -127,40 +166,33 @@ body {
     font-weight: 500;
 }
 
-/* Элегантные маркеры перед пунктами в шапке */
 .infa-shapka ul li::before {
     content: '✦';
-    color: #ffe680; /* Теплый нежно-желтый акцент */
+    color: var(--yellow-warm);
     margin-right: 10px;
     font-size: 1.4rem;
     vertical-align: middle;
 }
 
 /* ==========================================================================
-   4. РАЗДЕЛ "УСЛУГИ"
+   5. "ПОЧЕМУ РОДИТЕЛИ ВЫБИРАЮТ НАС" — карточки преимуществ
    ========================================================================== */
-.uslugi {
-    /* Нежный фисташково-зеленый фон для всего раздела */
-    background-color: #f1f4ed; 
+.why-us {
+    background-color: var(--yellow-soft);
     padding: 100px 20px;
     width: 100%;
 }
-/* --- ИСПРАВЛЕНИЕ ЗАГОЛОВКА "УСЛУГИ" НАД КАРТОЧКАМИ --- */
 
-/* Находим заголовок h1 прямо внутри .con-uslugi */
-.con-uslugi h1 {
-    width: 100%;            /* Заставляет заголовок занять всю ширину и вытолкнуть карточки вниз */
-    text-align: center;     /* Центрирует текст «Услуги» строго по середине сайта */
-    color: #1a2e5a;         /* Ваш глубокий темно-синий цвет */
-    font-size: 2.8rem;      /* Крупный красивый размер */
-    font-weight: 800;
-    margin-bottom: 40px;    /* Отступ снизу от слова "Услуги" до начала карточек */
-    flex-direction: row;    
-    max-width: 100% !important; /* Сбрасываем жесткое ограничение, чтобы заголовок не зажимался */
+.why-us .section-title,
+.why-us .section-subtitle {
+    color: var(--green-dark);
 }
 
+.why-us .section-subtitle {
+    color: var(--text-muted);
+}
 
-.con-uslugi {
+.why-grid {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
@@ -169,486 +201,411 @@ body {
     gap: 30px;
 }
 
-.card-usligi {
+.why-card {
     flex: 1;
-    min-width: 290px;
-    max-width: 360px;
-    background-color: #ffffff;
+    min-width: 260px;
+    max-width: 340px;
+    background-color: var(--white);
     border-radius: 24px;
     padding: 40px 30px;
     text-align: center;
-    /* Очень мягкая натуральная тень */
-    box-shadow: 0 8px 30px rgba(107, 142, 35, 0.04);
+    box-shadow: 0 8px 30px var(--shadow-green);
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid rgba(107, 142, 35, 0.08);
+    border: 1px solid rgba(59, 107, 51, 0.08);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
 }
 
-/* Интерактивный эффект: карточка приподнимается, а рамка окрашивается в оливковый */
-.card-usligi:hover {
+.why-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(107, 142, 35, 0.12);
-    border-color: olivedrab;
+    box-shadow: 0 15px 35px var(--shadow-green);
+    border-color: var(--green);
 }
 
-.card-usligi img {
-    width: 110px;
-    height: 110px;
+.why-card img {
+    width: 90px;
+    height: 90px;
     object-fit: cover;
     border-radius: 50%;
-    /* Теплый темно-желтый (горчичный/песочный) ободок вокруг круглых иконок */
-    border: 4px solid #e0b034; 
-    margin-bottom: 25px;
-    background-color: #fbfbfa;
+    border: 4px solid var(--yellow-warm);
+    margin-bottom: 22px;
+    background-color: var(--cream);
     padding: 12px;
 }
 
-.card-usligi h1 {
-    color: #1a2e5a; /* Ваш любимый глубокий темно-синий */
-    font-size: 1.4rem;
-    margin-bottom: 15px;
+.why-card h3 {
+    color: var(--green-dark);
+    font-size: 1.25rem;
+    margin-bottom: 12px;
     font-weight: 700;
-    line-height: 1.3;
 }
 
-.card-usligi p {
-    color: #4a554a; /* Темный графитово-зеленый текст */
+.why-card p {
+    color: var(--text-muted);
     font-size: 1rem;
     line-height: 1.6;
-    margin-top: auto;
 }
 
 /* ==========================================================================
-   5. СЕКЦИЯ "О НАС"
+   6. "НАШ ПОДХОД" — шаги
    ========================================================================== */
-.onas {
-    /* Чистый белый фон, чтобы визуально отделить его от фисташковых Услуг */
-    background-color: #ffffff; 
+.approach {
+    background-color: var(--green-dark);
+    color: var(--white);
     padding: 100px 20px;
     width: 100%;
 }
 
-.cononas {
-    max-width: 1200px;
+.approach .section-title {
+    color: var(--white);
+}
+
+.approach .section-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.approach-list {
+    max-width: 800px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 90px;
+    gap: 45px;
 }
 
-/* Главный заголовок О НАС */
-.cononas > h1 {
-    color: #1a2e5a; 
-    font-size: 3rem;
-    text-align: center;
+.approach-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.approach-step .step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--yellow-warm);
+    color: var(--green-darker);
+    font-size: 1.4rem;
     font-weight: 800;
-    margin-bottom: 20px;
-    position: relative;
-    display: inline-block;
-    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Нежное оливковое подчеркивание под заголовком "О нас" */
-.cononas > h1::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background-color: olivedrab;
-    border-radius: 2px;
-    margin: 10px auto 0 auto;
-}
-
-.onas1 h1, .onas2 h1 {
-    color: #1a2e5a; /* Темно-синий */
-    font-size: 2.1rem;
+.approach-step h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
     font-weight: 700;
-    margin-bottom: 20px;
-    text-align: left;
 }
 
-.onas1 p, .onas2 p, .onas1 P {
-    color: #4a4a4a; /* Спокойный благородный серый */
-    font-size: 1.05rem;
-    line-height: 1.75;
-    text-align: justify;
+.approach-step p {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
 }
 
-/* Красивое оформление фотографий "О нас" */
-.onas1 img, .onas2 img {
-    width: 100%;
-    max-width: 380px;
-    height: auto;
-    object-fit: cover;
+.approach-step img {
+    grid-column: 2;
+    margin-top: 20px;
     border-radius: 16px;
-    /* Оливково-зеленая мягкая тень под фотографиями */
-    box-shadow: 0 15px 40px rgba(107, 142, 35, 0.1);
-    border: 1px solid rgba(107, 142, 35, 0.1);
+    max-width: 100%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
-
-/* --- СЕТКА ДЛЯ БЛОКА 1 (Бок о бок) --- */
-.onas1 {
-    display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 60px;
-    align-items: start;
-}
-
-.onas1 img { grid-column: 1; grid-row: 1 / 3; }
-.onas1 h1 { margin-top: 150px;  grid-column: 2; grid-row: 1; }
-.onas1 p, .onas1 P { grid-column: 2; grid-row: 2; }
-
-/* --- СЕТКА ДЛЯ БЛОКА 2 (Бок о бок) --- */
-.onas2 {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 60px;
-    align-items: start;
-}
-
-.onas2 h1 { grid-column: 1; grid-row: 1; }
-.onas2 p { grid-column: 1; grid-row: 2; }
-.onas2 img { grid-column: 2; grid-row: 1 / 3; }
 
 /* ==========================================================================
-   6. МОБИЛЬНАЯ АДАПТИВНОСТЬ
+   7. FAQ (аккордеон на нативном <details>/<summary> — без лишнего JS)
    ========================================================================== */
-@media (max-width: 992px) {
-    .onas1 { grid-template-columns: 300px 1fr; gap: 40px; }
-    .onas2 { grid-template-columns: 1fr 300px; gap: 40px; }
-    .onas1 img, .onas2 img { max-width: 300px; }
-    .infa-shapka h1 { font-size: 2.4rem; }
-}
-
-@media (max-width: 768px) {
-    body { padding-top: 90px; }
-    .nav ul { gap: 15px; }
-    .shapka { padding: 70px 15px; }
-    .infa-shapka h1 { font-size: 2rem; }
-    .infa-shapka ul { font-size: 1.1rem; }
-    .uslugi { padding: 60px 15px; }
-
-    .onas1, .onas2 {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-    }
-
-    .onas1 img, .onas2 img {
-        max-width: 100%;
-        margin: 0 auto;
-    }
-
-    .onas1 h1, .onas2 h1 {
-        text-align: center;
-        font-size: 1.6rem;
-    }
-
-    .onas1 p, .onas2 p, .onas1 P {
-        text-align: left;
-    }
-}
-/* ===========================
-          ПЕДАГОГИ
-=========================== */
-
-.pedagog{
-    max-width: 1200px;
-    margin: 120px auto;
-    padding: 0 20px;
-}
-
-.pedagog-title{
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 700;
-    color: #1f3557;
-    margin-bottom: 55px;
-}
-
-.pedagog-card{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
-}
-
-.card{
-    background: #fff;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 6px 20px rgba(0,0,0,.08);
-    transition: .3s;
-    text-align: center;
-}
-
-.card:hover{
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0,0,0,.15);
-}
-
-.card img{
+.faq {
+    background-color: var(--cream);
+    padding: 100px 20px;
     width: 100%;
-    height: 235px;
-    object-fit: cover;
-    border-radius: 15px;
+}
+
+.faq .section-title {
+    color: var(--green-dark);
+}
+
+.faq .section-subtitle {
+    color: var(--text-muted);
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.faq-item {
+    background-color: var(--white);
+    border: 1px solid rgba(59, 107, 51, 0.12);
+    border-radius: 16px;
+    padding: 6px 26px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.faq-item[open] {
+    box-shadow: 0 10px 28px var(--shadow-green);
+    border-color: var(--green);
+}
+
+.faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 18px 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--green);
+    transition: transform 0.3s ease;
+    margin-left: 20px;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    color: var(--text-muted);
+    line-height: 1.65;
+    padding-bottom: 20px;
+}
+
+/* ==========================================================================
+   8. "ЗАПИСЬ" — форма и соцсети
+   ========================================================================== */
+.booking {
+    background-color: var(--yellow-soft);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.booking-container {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.booking .section-title,
+.booking-form h2 {
+    color: var(--green-dark);
+}
+
+.booking-form {
+    background-color: var(--white);
+    padding: 45px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px var(--shadow-green);
+}
+
+.booking-form p.lead {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+.booking-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.booking-form label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
     display: block;
 }
 
-.card h2{
-    margin-top: 18px;
-    margin-bottom: 12px;
-    font-size: 1.35rem;
-    color: #444;
+.booking-form input,
+.booking-form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #e2ddc9;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: 0.3s;
+    background-color: var(--cream);
+}
+
+.booking-form textarea {
+    height: 130px;
+    resize: none;
+}
+
+.booking-form input:focus,
+.booking-form textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(111, 168, 75, 0.2);
+    background-color: var(--white);
+}
+
+.booking-form button {
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--green);
+    color: var(--white);
+    font-size: 17px;
     font-weight: 700;
-    line-height: 1.4;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 6px;
 }
 
-.card p{
-    color: #777;
-    font-size: .95rem;
-    line-height: 1.6;
-    margin-bottom: 12px;
+.booking-form button:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
 }
 
-/* ===========================
-      АДАПТИВ
-=========================== */
-
-@media (max-width:1100px){
-
-    .pedagog-card{
-        grid-template-columns: repeat(2,1fr);
-    }
-
+.consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
 }
 
-@media (max-width:700px){
-
-    .pedagog-title{
-        font-size:2.2rem;
-    }
-
-    .pedagog-card{
-        grid-template-columns:1fr;
-    }
-
-}
-/*==========================
-        КОНТАКТЫ
-==========================*/
-
-.contact{
-    padding:100px 20px;
-    background:#fcfcfc;
+.consent input {
+    width: auto;
+    margin-top: 3px;
 }
 
-.contact-container{
-    max-width:1200px;
-    margin:auto;
+.consent a {
+    color: var(--green-dark);
+    font-weight: 600;
 }
 
-.contact-title{
-    text-align:center;
-    font-size:2.8rem;
-    color:#1a2e5a;
-    margin-bottom:60px;
-    position:relative;
+.social-links {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
 }
 
-.contact-title::after{
-    content:"";
-    width:80px;
-    height:4px;
-    background:olivedrab;
-    display:block;
-    margin:18px auto 0;
-    border-radius:10px;
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    background-color: var(--white);
+    border: 1px solid rgba(59, 107, 51, 0.15);
+    color: var(--text-dark);
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
-.contact-content{
-    display:grid;
-    grid-template-columns:1.3fr 1fr;
-    gap:50px;
+.social-links a:hover {
+    border-color: var(--green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--shadow-green);
 }
 
-/* ======== Форма ======== */
-
-.contact-form{
-    background:#fff;
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+/* ==========================================================================
+   9. ПОДВАЛ (FOOTER)
+   ========================================================================== */
+.footer {
+    background-color: var(--green-darker);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 40px 20px;
+    text-align: center;
 }
 
-.contact-form h2{
-    color:#1a2e5a;
-    margin-bottom:15px;
+.footer strong {
+    color: var(--white);
+    font-size: 1.2rem;
 }
 
-.contact-form p{
-    color:#666;
-    margin-bottom:30px;
-    line-height:1.7;
+.footer-links {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
 }
 
-.contact-form form{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
 }
 
-.contact-form input,
-.contact-form textarea{
-
-    width:100%;
-    padding:15px 20px;
-
-    border:1px solid #ddd;
-    border-radius:12px;
-
-    font-size:16px;
-
-    transition:.3s;
+.footer-links a:hover {
+    color: var(--yellow-warm);
 }
 
-.contact-form textarea{
-
-    height:170px;
-    resize:none;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus{
-
-    outline:none;
-    border-color:olivedrab;
-    box-shadow:0 0 10px rgba(107,142,35,.2);
-}
-
-.contact-form button{
-
-    width:220px;
-
-    padding:16px;
-
-    border:none;
-    border-radius:12px;
-
-    background:olivedrab;
-    color:#fff;
-
-    font-size:17px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.contact-form button:hover{
-
-    background:#556b2f;
-
-    transform:translateY(-3px);
-}
-
-/* ======== Правая часть ======== */
-
-.contact-info{
-
-    display:flex;
-    flex-direction:column;
-    gap:25px;
-}
-
-.info-card{
-
-    background:#fff;
-
-    padding:30px;
-
-    border-radius:20px;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-
-    transition:.3s;
-}
-
-.info-card:hover{
-
-    transform:translateY(-5px);
-}
-
-.info-card h3{
-
-    color:#1a2e5a;
-
-    margin-bottom:12px;
-}
-
-.info-card p{
-
-    color:#666;
-
-    line-height:1.7;
-}
-
-/* ======== Адаптив ======== */
-
-@media(max-width:900px){
-
-    .contact-content{
-
-        grid-template-columns:1fr;
-    }
-
-    .contact-form button{
-
-        width:100%;
-    }
-
-}
-/* =========================
-АНИМАЦИИ
-========================= */
-
-.hidden{
+/* ==========================================================================
+   10. АНИМАЦИИ ПОЯВЛЕНИЯ
+   ========================================================================== */
+.hidden {
     opacity: 0;
     transform: translateY(40px);
     transition: all 0.6s ease;
 }
 
-.show{
+.show {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* =========================
-КНОПКА НАВЕРХ
-========================= */
-
-.to-top{
+/* ==========================================================================
+   11. КНОПКА "НАВЕРХ"
+   ========================================================================== */
+.to-top {
     position: fixed;
     right: 25px;
     bottom: 25px;
-
     width: 50px;
     height: 50px;
-
     border: none;
     border-radius: 50%;
-
-    background: olivedrab;
-    color: white;
-
+    background: var(--green);
+    color: var(--white);
     font-size: 22px;
     font-weight: bold;
-
     cursor: pointer;
-
     display: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+/* ==========================================================================
+   12. МОБИЛЬНАЯ АДАПТИВНОСТЬ
+   ========================================================================== */
+@media (max-width: 768px) {
+    body { padding-top: 90px; }
+    .nav ul { gap: 15px; }
+    .shapka { padding: 70px 15px; }
+    .infa-shapka h1 { font-size: 2.1rem; }
+    .infa-shapka ul { font-size: 1.05rem; }
+
+    .why-us, .approach, .faq, .booking { padding: 60px 15px; }
+    .section-title { font-size: 2rem; }
+
+    .approach-step {
+        grid-template-columns: 48px 1fr;
+        gap: 16px;
+    }
+
+    .booking-form { padding: 30px 22px; }
+    .social-links { grid-template-columns: 1fr; }
 }
