@@ -16,8 +16,9 @@
     <div class="login-form">
         <h2>Вход в админку</h2>
         <form method="POST">
-            <input type="text" name="username" placeholder="Логин" required>
-            <input type="password" name="password" placeholder="Пароль" required>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="text" name="username" placeholder="Логин" required autocomplete="username">
+            <input type="password" name="password" placeholder="Пароль" required autocomplete="current-password">
             <button type="submit">Войти</button>
         </form>
         <p style="text-align: center; margin-top: 15px;">

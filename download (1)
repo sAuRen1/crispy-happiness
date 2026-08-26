@@ -1,0 +1,23 @@
+# Секреты — никогда не коммитятся
+.env
+*.env
+!.env.example
+
+# База данных — в ней реальные заявки людей (имя, email, телефон).
+# Ей вообще не место в git, независимо от того, публичный репозиторий или нет.
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store

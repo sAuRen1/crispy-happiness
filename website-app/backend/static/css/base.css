@@ -313,6 +313,120 @@ img {
 }
 
 /* ==========================================================================
+   6.1 ПРАЙС-ЛИСТ
+   ========================================================================== */
+.prices {
+    background-color: var(--white);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.prices .section-title {
+    color: var(--green-dark);
+}
+
+.prices .section-subtitle {
+    color: var(--text-muted);
+}
+
+.price-groups {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.price-group {
+    flex: 1;
+    min-width: 320px;
+    max-width: 460px;
+    background-color: var(--cream);
+    border: 1px solid rgba(59, 107, 51, 0.12);
+    border-radius: 24px;
+    padding: 32px;
+}
+
+.price-group-title {
+    color: var(--green-dark);
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.price-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 16px var(--shadow-green);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.price-row:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px var(--shadow-green);
+}
+
+.price-icon {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.price-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.price-name {
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.35;
+}
+
+.price-duration {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.price-value {
+    flex: 0 0 auto;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--green-dark);
+    white-space: nowrap;
+}
+
+.price-note {
+    max-width: 640px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
    7. FAQ (аккордеон на нативном <details>/<summary> — без лишнего JS)
    ========================================================================== */
 .faq {
@@ -474,6 +588,17 @@ img {
     transform: translateY(-2px);
 }
 
+/* Honeypot-поле визуально убрано со страницы, но не через display:none —
+   часть ботов проверяет именно это свойство и пропускает скрытые так поля.
+   Сдвиг за пределы экрана надёжнее и человеку абсолютно не заметен. */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    height: 0;
+    overflow: hidden;
+}
+
 .consent {
     display: flex;
     gap: 10px;
@@ -598,7 +723,11 @@ img {
     .infa-shapka h1 { font-size: 2.1rem; }
     .infa-shapka ul { font-size: 1.05rem; }
 
-    .why-us, .approach, .faq, .booking { padding: 60px 15px; }
+    .why-us, .approach, .faq, .booking, .prices { padding: 60px 15px; }
+
+    .price-group { padding: 24px 20px; }
+    .price-row { flex-wrap: wrap; }
+    .price-value { margin-left: auto; }
     .section-title { font-size: 2rem; }
 
     .approach-step {

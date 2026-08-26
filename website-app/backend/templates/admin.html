@@ -9,12 +9,21 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
         th { background-color: #f0f0f0; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .logout-btn { background: #c0392b; color: #fff; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; }
+        .logout-btn:hover { background: #a93226; }
     </style>
 </head>
 <body>
-    <h1>Все заявки ({{ anketas|length }})</h1>
+    <div class="top-bar">
+        <h1>Все заявки ({{ anketas|length }})</h1>
+        <form method="POST" action="{{ url_for('admin_logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="logout-btn">Выйти</button>
+        </form>
+    </div>
     <a href="/">← На главную</a>
-    
+
     <table>
         <tr>
             <th>Дата</th>

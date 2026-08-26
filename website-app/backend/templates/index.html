@@ -32,6 +32,7 @@
                     <li><a href="#shapka" class="active">ГЛАВНАЯ</a></li>
                     <li><a href="#why-us">ПОЧЕМУ МЫ</a></li>
                     <li><a href="#approach">НАШ ПОДХОД</a></li>
+                    <li><a href="#prices">ЦЕНЫ</a></li>
                     <li><a href="#faq">ВОПРОСЫ</a></li>
                     <li><a href="#booking">ЗАПИСЬ</a></li>
                 </ul>
@@ -43,7 +44,7 @@
     <section id="shapka" class="shapka">
         <div class="shapka-bam">
             <div class="piramidka">
-                <img src="{{ url_for('static', filename='images/пирамидка.jpg') }}" alt="Пирамидка">
+                <img src="{{ url_for('static', filename='images/photo_2026-08-26_20-20-05.jpg') }}" alt="Пирамидка">
             </div>
             <div class="infa-shapka">
                 <h1>Центр развития «Пирамидка»</h1>
@@ -148,6 +149,71 @@
         </div>
     </section>
 
+    <!-- ПРАЙС-ЛИСТ -->
+    <section id="prices" class="prices">
+        <h2 class="section-title">Прайс-лист</h2>
+        <p class="section-subtitle">Фундамент ваших знаний — стоимость занятий в центре «Пирамидка».</p>
+
+        <div class="price-groups">
+            <div class="price-group">
+                <h3 class="price-group-title">ABA-терапия</h3>
+                <div class="price-list">
+                    <div class="price-row">
+                        <span class="price-icon" aria-hidden="true">👤</span>
+                        <span class="price-info">
+                            <span class="price-name">Разовое занятие</span>
+                            <span class="price-duration">60 минут</span>
+                        </span>
+                        <span class="price-value">1 500 ₽</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-icon" aria-hidden="true">🎟</span>
+                        <span class="price-info">
+                            <span class="price-name">Абонемент на 8 занятий</span>
+                            <span class="price-duration">по 60 минут</span>
+                        </span>
+                        <span class="price-value">16 000 ₽</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-icon" aria-hidden="true">👨‍👩‍👧</span>
+                        <span class="price-info">
+                            <span class="price-name">Групповые коммуникативные занятия</span>
+                            <span class="price-duration">55 минут, группы до 3 человек</span>
+                        </span>
+                        <span class="price-value">6 000 ₽</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-group">
+                <h3 class="price-group-title">Логопедия / Дефектология / Нейропсихология</h3>
+                <div class="price-list">
+                    <div class="price-row">
+                        <span class="price-icon" aria-hidden="true">👤</span>
+                        <span class="price-info">
+                            <span class="price-name">Разовое занятие</span>
+                            <span class="price-duration">30 минут</span>
+                        </span>
+                        <span class="price-value">1 300 ₽</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-icon" aria-hidden="true">🎟</span>
+                        <span class="price-info">
+                            <span class="price-name">Абонемент на 8 занятий</span>
+                            <span class="price-duration">по 30 минут</span>
+                        </span>
+                        <span class="price-value">8 000 ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="price-note">
+            Индивидуальные занятия с профессиональными специалистами — для гармоничного
+            развития и уверенного будущего вашего ребёнка.
+        </p>
+    </section>
+
     <!-- FAQ -->
     <section id="faq" class="faq">
         <h2 class="section-title">Часто задаваемые вопросы</h2>
@@ -184,6 +250,13 @@
                 <p class="lead">Оставьте заявку, и мы свяжемся с вами для уточнения деталей вашего первого визита.</p>
 
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <!-- honeypot: обычный посетитель этого поля не видит и не заполнит,
+                         а простые спам-боты, которые заполняют все поля подряд, попадутся -->
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="company">Компания</label>
+                        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+                    </div>
                     <div>
                         <label for="name">Имя</label>
                         <input type="text" id="name" name="name" placeholder="Как к вам обращаться" required>
