@@ -1,14 +1,18 @@
 import hmac
+import logging
 import os
 import re
 import secrets
+import threading
 from collections import defaultdict
 from datetime import datetime, timedelta
+from logging.handlers import RotatingFileHandler
 from time import time
 
 from dotenv import load_dotenv
-from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
+from flask import Flask, abort, flash, redirect, render_template, request, send_from_directory, session, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from werkzeug.security import check_password_hash
 
 load_dotenv()
@@ -78,6 +82,62 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
 app.config['ADMIN_USERNAME'] = os.getenv('ADMIN_USERNAME', 'admin')
 app.config['ADMIN_PASSWORD_HASH'] = require_env('ADMIN_PASSWORD_HASH')
 
+
+# ===========================================================================
+# ЛОГИРОВАНИЕ
+# ---------------------------------------------------------------------------
+# Раньше важные события (подключение к БД, ошибки) просто печатались через
+# print() — это работает, только пока ты сам смотришь в терминал рядом с
+# запущенным процессом. На реальном хостинге такого терминала нет, а
+# print() никак не помечен по важности (это заметка для себя или ошибка,
+# которую надо разбирать ночью?) и никуда не сохраняется, если хостинг не
+# перезапустит процесс с тем же терминалом.
+#
+# logging решает обе проблемы: у записи есть уровень (INFO — просто
+# происходящее, WARNING — что-то подозрительное типа неверного пароля или
+# сработавшего rate-limit, ERROR — реальная поломка), и можно направить её
+# сразу в несколько мест.
+#
+# Мы пишем логи в stdout (консоль) — это стандартный подход для облачных
+# хостингов (12-factor app): приложение просто печатает в консоль, а КУДА
+# это дальше попадёт (файл, система мониторинга, раздел "Логи" у хостера)
+# решает платформа, а не сам код. Amvera/Timeweb Cloud Apps по умолчанию
+# ловят именно stdout процесса.
+#
+# Дополнительно пишем в файл рядом с базой — на случай, если тебе удобнее
+# посмотреть историю локально, а не через интерфейс хостинга.
+# RotatingFileHandler сам нарезает файл на куски по 1 МБ и хранит не
+# больше 5 последних — иначе логи со временем заняли бы весь диск.
+# ===========================================================================
+
+def configure_logging(flask_app: Flask) -> None:
+    log_level = logging.DEBUG if DEBUG else logging.INFO
+    formatter = logging.Formatter(
+        '%(asctime)s [%(levelname)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    flask_app.logger.addHandler(console_handler)
+    flask_app.logger.setLevel(log_level)
+
+    try:
+        logs_dir = os.path.join(base_dir, 'instance')
+        os.makedirs(logs_dir, exist_ok=True)
+        file_handler = RotatingFileHandler(
+            os.path.join(logs_dir, 'app.log'), maxBytes=1_000_000, backupCount=5, encoding='utf-8'
+        )
+        file_handler.setFormatter(formatter)
+        flask_app.logger.addHandler(file_handler)
+    except OSError:
+        # Некоторые хостинги дают только временную/read-only файловую систему.
+        # Логи в stdout всё равно продолжат работать — приложение из-за
+        # этого падать не должно.
+        flask_app.logger.warning('Не удалось создать файл логов — логируем только в консоль.')
+
+
+configure_logging(app)
+
 db = SQLAlchemy(app)
 
 
@@ -113,6 +173,9 @@ def csrf_protect():
         if not token_in_session or not token_submitted or not hmac.compare_digest(
             token_in_session, token_submitted
         ):
+            app.logger.warning(
+                'CSRF-проверка не пройдена: IP=%s, путь=%s', request.remote_addr, request.path
+            )
             abort(400, description='Форма устарела или отправлена не с этого сайта. Обновите страницу и попробуйте снова.')
 
 
@@ -123,28 +186,43 @@ def csrf_protect():
 #  - спама через форму записи (кто-то долбит POST / скриптом);
 #  - перебора пароля админки (кто-то долбит POST /admin).
 #
-# Честное предупреждение (это важно понимать, а не просто скопировать код):
-# состояние живёт в памяти ОДНОГО процесса. Если на проде запустишь
-# `gunicorn -w 4` (4 воркера), у каждого будет своя память — лимит будет
-# по факту в 4 раза мягче, чем указано. Для одного воркера или для сайта
-# с некритичной нагрузкой это нормально. Если проект вырастет и нужно будет
-# больше воркеров — лимитер нужно переносить на Redis (например,
-# Flask-Limiter со storage_uri="redis://..."). Здесь это осознанное
-# упрощение, а не то, что я забыл.
+# Честное предупреждение про масштабирование (важно понимать, а не просто
+# скопировать код): состояние живёт в памяти ОДНОГО процесса. Если на
+# проде запустишь несколько gunicorn-ВОРКЕРОВ (`-w 4`, отдельные процессы),
+# у каждого будет своя копия этого словаря — лимит станет мягче в 4 раза,
+# т.к. атакующего IP посчитают отдельно в каждом процессе.
+#
+# Поэтому для этого проекта в README рекомендован ОДИН процесс с
+# несколькими ПОТОКАМИ (`--workers 1 --threads N`, gthread-воркер), а не
+# несколько процессов: потоки одного процесса делят одну и ту же память,
+# значит и этот словарь общий, и лимит считается честно, при этом сервер
+# всё равно параллельно обрабатывает много запросов. Если сайт вырастет
+# настолько, что понадобится несколько процессов/машин — тогда лимитер
+# действительно нужно переносить на Redis (Flask-Limiter со
+# storage_uri="redis://..."). Пока это осознанное упрощение под масштаб
+# сайта-визитки, а не то, что забыли.
+#
+# Lock нужен именно из-за потоков: без него два потока могут одновременно
+# читать и изменять список bucket для одного и того же IP — например, оба
+# увидят len(bucket) == 4 и оба решат "лимит не превышен", пропустив
+# 6-й запрос вместо блокировки. Race condition, которая никак не проявится
+# на одном потоке (как было раньше), но реальна под конкурентной нагрузкой.
 # ===========================================================================
 
 _rate_buckets: dict[str, list[float]] = defaultdict(list)
+_rate_lock = threading.Lock()
 
 
 def is_rate_limited(key: str, limit: int, window_seconds: int) -> bool:
     now = time()
-    bucket = _rate_buckets[key]
-    while bucket and bucket[0] <= now - window_seconds:
-        bucket.pop(0)
-    if len(bucket) >= limit:
-        return True
-    bucket.append(now)
-    return False
+    with _rate_lock:
+        bucket = _rate_buckets[key]
+        while bucket and bucket[0] <= now - window_seconds:
+            bucket.pop(0)
+        if len(bucket) >= limit:
+            return True
+        bucket.append(now)
+        return False
 
 
 # ===========================================================================
@@ -197,9 +275,26 @@ class Anketa(db.Model):
 with app.app_context():
     try:
         db.create_all()
-        print("✅ База данных успешно подключена и таблицы созданы!")
-    except Exception as e:
-        print("❌ Ошибка подключения к базе:", e)
+
+        # SQLite: включаем WAL (Write-Ahead Logging).
+        # По умолчанию SQLite при записи блокирует ВСЮ базу целиком — пока
+        # кто-то отправляет форму записи (INSERT), любое чтение (например,
+        # ты открыл админку в этот момент) ждёт своей очереди. При росте
+        # нагрузки это и есть узкое место, а не CPU и не Python.
+        # В режиме WAL писатель пишет в отдельный журнал, а читатели
+        # продолжают читать текущую версию базы — читатели и писатель
+        # не блокируют друг друга. Ограничение: WAL не работает по сети
+        # (не годится для БД на сетевом диске), но для sqlite-файла на
+        # локальном диске сервера — стандартная и безопасная настройка.
+        # Это persistent-настройка: она сохраняется в самом файле базы,
+        # поэтому её достаточно применить один раз при старте.
+        if app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite'):
+            db.session.execute(text('PRAGMA journal_mode=WAL'))
+
+        is_sqlite = app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite')
+        app.logger.info('База данных подключена, таблицы созданы (WAL включён: %s)', is_sqlite)
+    except Exception:
+        app.logger.exception('Ошибка подключения к базе данных')
 
 
 EMAIL_RE = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
@@ -216,6 +311,7 @@ def index():
             return redirect(url_for('index'))
 
         if is_rate_limited(f"booking:{request.remote_addr}", limit=5, window_seconds=60):
+            app.logger.warning('Rate limit: слишком много заявок с IP=%s', request.remote_addr)
             flash('❌ Слишком много заявок подряд. Попробуйте через минуту.', 'error')
             return redirect(url_for('index'))
 
@@ -246,6 +342,9 @@ def index():
 def admin():
     if request.method == 'POST':
         if is_rate_limited(f"admin-login:{request.remote_addr}", limit=5, window_seconds=300):
+            app.logger.warning(
+                'Rate limit: слишком много попыток входа в админку с IP=%s', request.remote_addr
+            )
             flash('❌ Слишком много попыток входа. Попробуйте через 5 минут.', 'error')
             return render_template('admin_login.html')
 
@@ -259,9 +358,16 @@ def admin():
             session.clear()
             session['admin_logged_in'] = True
             session.permanent = True
+            app.logger.info('Успешный вход в админку с IP=%s', request.remote_addr)
             flash('✅ Успешный вход в админку!', 'success')
             return redirect(url_for('admin'))
 
+        # Логируем IP и введённый логин (НЕ пароль — пароль в логах не должен
+        # оказаться никогда, даже неверный) — пригодится, если понадобится
+        # понять, кто и как часто пытается подобрать доступ в админку.
+        app.logger.warning(
+            'Неудачная попытка входа в админку: логин=%r, IP=%s', username, request.remote_addr
+        )
         flash('❌ Неверный логин или пароль', 'error')
 
     if session.get('admin_logged_in'):
@@ -274,9 +380,110 @@ def admin():
 @app.route('/admin/logout', methods=['POST'])
 def admin_logout():
     session.pop('admin_logged_in', None)
+    app.logger.info('Выход из админки, IP=%s', request.remote_addr)
     flash('Вы вышли из админки', 'success')
     return redirect(url_for('index'))
 
 
+# ================= ЮРИДИЧЕСКИЕ СТРАНИЦЫ =================
+# Форма записи собирает персональные данные (имя, email, телефон) и прямо
+# ссылается на эти страницы как на согласие по 152-ФЗ — значит, ссылки
+# не могут вести в никуда. Текст в шаблонах — типовой черновик, а не
+# готовый юридический документ: перед реальным запуском Макс должен
+# вписать туда свои настоящие реквизиты (см. TODO в самих шаблонах).
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+
+# robots.txt лежит в static/, но поисковики и краулеры всегда стучатся
+# именно в /robots.txt в корне сайта, а не в /static/robots.txt — этот
+# роут отдаёт тот же файл по правильному адресу. Disallow: /admin — чтобы
+# страница входа в админку не попала в индекс поисковика.
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory(app.static_folder, 'robots.txt')
+
+
+# ===========================================================================
+# HEALTH-CHECK
+# ---------------------------------------------------------------------------
+# Отдельный лёгкий эндпоинт, который отвечает на вопрос "сайт реально
+# работает?" — не просто "процесс запущен" (это может ответить и намертво
+# зависшее приложение), а "может ли он сходить в базу данных". Хостинги
+# и балансировщики умеют периодически дёргать такой адрес и сами
+# перезапускать процесс, если он перестал отвечать 200 OK — это и есть
+# базовое автовосстановление без участия человека.
+# Специально не рендерим HTML-шаблон — health-check дёргается часто и
+# автоматически, ему не нужен красивый дизайн, только быстрый ответ.
+# ===========================================================================
+
+@app.route('/healthz')
+def healthz():
+    try:
+        db.session.execute(text('SELECT 1'))
+        return {'status': 'ok'}, 200
+    except Exception:
+        app.logger.exception('Health-check: база данных недоступна')
+        return {'status': 'error', 'detail': 'database unavailable'}, 503
+
+
+# ===========================================================================
+# СТРАНИЦЫ ОШИБОК
+# ---------------------------------------------------------------------------
+# Без этих обработчиков Flask/Werkzeug показывает свою дефолтную белую
+# страницу с текстом ошибки — она выглядит как техническая заглушка и
+# ничего не даёт посетителю сделать, кроме как закрыть вкладку. Плюс
+# 500-страница Flask по умолчанию в проде показывает голый "Internal
+# Server Error" без единой зацепки, что происходит — так и должно быть
+# (детали ошибки не должны утекать наружу), но человек должен увидеть
+# хотя бы кнопку "на главную", а не тупик.
+# ===========================================================================
+
+@app.errorhandler(400)
+def bad_request(e):
+    message = getattr(e, 'description', None) or (
+        'Запрос не может быть обработан. Обновите страницу и попробуйте снова.'
+    )
+    return render_template('error.html', code=400, title='Некорректный запрос', message=message), 400
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template(
+        'error.html', code=404, title='Страница не найдена',
+        message='Такой страницы не существует — возможно, ссылка устарела или в адресе опечатка.'
+    ), 404
+
+
+@app.errorhandler(413)
+def too_large(e):
+    return render_template(
+        'error.html', code=413, title='Слишком большой запрос',
+        message='Отправленные данные превышают допустимый размер.'
+    ), 413
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    # Откатываем сессию БД: если ошибка произошла посреди работы с базой,
+    # сессия может остаться в "грязном" состоянии и сломать СЛЕДУЮЩИЙ
+    # запрос, который её переиспользует, даже если та ошибка была разовой.
+    db.session.rollback()
+    app.logger.exception('Необработанная ошибка сервера')
+    return render_template(
+        'error.html', code=500, title='Что-то пошло не так',
+        message='На сервере произошла ошибка. Мы уже разбираемся — попробуйте, пожалуйста, чуть позже.'
+    ), 500
+
+
 if __name__ == '__main__':
-    app.run(debug=DEBUG, port=int(os.getenv('PORT', 5000)))
+    # threaded=True — только для локального запуска через `python app.py`.
+    # На проде эта строка вообще не выполняется: там сайт запускает
+    # gunicorn (см. README, раздел "Деплой"), а не этот файл напрямую.
+    app.run(debug=DEBUG, port=int(os.getenv('PORT', 5000)), threaded=True)

@@ -9,6 +9,17 @@
 
     <title>Центр развития «Пирамидка» — запишитесь на пробное занятие</title>
 
+    <!-- Open Graph — превью ссылки, когда её кидают в Telegram/WhatsApp/VK
+         (а в футере как раз есть ссылки на эти площадки). Без этих тегов
+         мессенджер покажет голую ссылку без картинки и описания. -->
+    <meta property="og:title" content="Центр развития «Пирамидка»">
+    <meta property="og:description" content="Гармоничное развитие ребёнка в малых группах: опытные педагоги, современные методики, индивидуальный подход.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/photo_2026-08-26_20-20-05.jpg', _external=True) }}">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 <body>
@@ -112,39 +123,44 @@
             уникальную программу, адаптированную под интересы и потребности каждого возраста.
         </p>
 
-        <div class="approach-list">
-            <div class="approach-step">
-                <div class="step-number">1</div>
-                <div>
-                    <h3>Знакомство и диагностика</h3>
-                    <p>
-                        Приглашаем на первую встречу, чтобы понять интересы ребёнка
-                        и подобрать группу, где ему будет максимально комфортно развиваться.
-                    </p>
+        <div class="approach-grid">
+            <div class="approach-list">
+                <div class="approach-step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Знакомство и диагностика</h3>
+                        <p>
+                            Приглашаем на первую встречу, чтобы понять интересы ребёнка
+                            и подобрать группу, где ему будет максимально комфортно развиваться.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="approach-step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Индивидуальный план</h3>
+                        <p>
+                            Разрабатываем персональную стратегию обучения, которая учитывает
+                            темп развития и таланты вашего малыша для лучшего результата.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="approach-step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Увлекательные занятия</h3>
+                        <p>
+                            Погружаем детей в мир знаний через творчество, игры и общение,
+                            создавая среду, где каждый день становится маленьким открытием.
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div class="approach-step">
-                <div class="step-number">2</div>
-                <div>
-                    <h3>Индивидуальный план</h3>
-                    <p>
-                        Разрабатываем персональную стратегию обучения, которая учитывает
-                        темп развития и таланты вашего малыша для лучшего результата.
-                    </p>
-                </div>
-            </div>
-
-            <div class="approach-step">
-                <div class="step-number">3</div>
-                <div>
-                    <h3>Увлекательные занятия</h3>
-                    <p>
-                        Погружаем детей в мир знаний через творчество, игры и общение,
-                        создавая среду, где каждый день становится маленьким открытием.
-                    </p>
-                    <img src="{{ url_for('static', filename='images/onas1.jfif') }}" alt="Занятия в центре Пирамидка">
-                </div>
+            <div class="approach-media">
+                <img src="{{ url_for('static', filename='images/onas1.jfif') }}" alt="Занятия в центре Пирамидка">
             </div>
         </div>
     </section>
@@ -278,9 +294,9 @@
                         <input type="checkbox" required>
                         <span>
                             Отправляя эту форму, вы соглашаетесь с
-                            <a href="#">Политикой конфиденциальности</a>,
-                            <a href="#">Пользовательским соглашением</a> и даёте
-                            <a href="#">согласие на обработку персональных данных</a> в соответствии с 152-ФЗ.
+                            <a href="{{ url_for('privacy') }}">Политикой конфиденциальности</a>,
+                            <a href="{{ url_for('terms') }}">Пользовательским соглашением</a> и даёте
+                            <a href="{{ url_for('privacy') }}">согласие на обработку персональных данных</a> в соответствии с 152-ФЗ.
                         </span>
                     </label>
 
@@ -302,8 +318,8 @@
     <footer class="footer">
         <strong>Пирамидка</strong>
         <div class="footer-links">
-            <a href="#">Политика конфиденциальности</a>
-            <a href="#">Условия использования</a>
+            <a href="{{ url_for('privacy') }}">Политика конфиденциальности</a>
+            <a href="{{ url_for('terms') }}">Условия использования</a>
         </div>
     </footer>
 

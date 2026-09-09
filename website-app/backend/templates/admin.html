@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админка - Анкеты</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; min-width: 640px; }
         th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
         th { background-color: #f0f0f0; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .logout-btn { background: #c0392b; color: #fff; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; }
         .logout-btn:hover { background: #a93226; }
+        .table-wrap { overflow-x: auto; }
+        .empty-state { margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px; color: #555; }
+        .flash { padding: 12px 16px; margin-top: 16px; border-radius: 6px; font-size: 0.95rem; }
+        .flash.success { background-color: #d4edda; color: #155724; }
+        .flash.error { background-color: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
@@ -24,23 +30,37 @@
     </div>
     <a href="/">← На главную</a>
 
-    <table>
-        <tr>
-            <th>Дата</th>
-            <th>Имя</th>
-            <th>Email</th>
-            <th>Телефон</th>
-            <th>Сообщение</th>
-        </tr>
-        {% for anketa in anketas %}
-        <tr>
-            <td>{{ anketa.date.strftime('%d.%m.%Y %H:%M') }}</td>
-            <td>{{ anketa.name }}</td>
-            <td>{{ anketa.email or '-' }}</td>
-            <td>{{ anketa.phone or '-' }}</td>
-            <td>{{ anketa.message or '-' }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if anketas %}
+    <div class="table-wrap">
+        <table>
+            <tr>
+                <th>Дата</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Телефон</th>
+                <th>Сообщение</th>
+            </tr>
+            {% for anketa in anketas %}
+            <tr>
+                <td>{{ anketa.date.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td>{{ anketa.name }}</td>
+                <td>{{ anketa.email or '-' }}</td>
+                <td>{{ anketa.phone or '-' }}</td>
+                <td>{{ anketa.message or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">Пока нет ни одной заявки. Как только кто-то заполнит форму записи на сайте, она появится здесь.</div>
+    {% endif %}
 </body>
 </html>

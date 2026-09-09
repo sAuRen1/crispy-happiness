@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>{{ code }} — Центр «Пирамидка»</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <nav class="nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">← НА ГЛАВНУЮ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="error-page">
+        <p class="error-code">{{ code }}</p>
+        <h1>{{ title }}</h1>
+        <p class="error-message">{{ message }}</p>
+        <a class="error-home-link" href="{{ url_for('index') }}">Вернуться на главную</a>
+    </main>
+
+    <footer class="footer">
+        <strong>Пирамидка</strong>
+        <div class="footer-links">
+            <a href="{{ url_for('privacy') }}">Политика конфиденциальности</a>
+            <a href="{{ url_for('terms') }}">Условия использования</a>
+        </div>
+    </footer>
+</body>
+</html>
