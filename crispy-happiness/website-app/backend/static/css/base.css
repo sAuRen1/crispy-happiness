@@ -1,0 +1,895 @@
+/* ==========================================================================
+   1. ЦВЕТОВАЯ ПАЛИТРА (design tokens)
+   --------------------------------------------------------------------------
+   Все цвета сайта собраны здесь, в переменных. Если завтра решишь чуть
+   изменить оттенок зелёного — правишь одну строку, а не ищешь его
+   по всему файлу. Это и есть системный подход к цвету в CSS.
+   ========================================================================== */
+:root {
+    --white:        #ffffff;
+    --cream:        #fffdf6;   /* тёплый почти-белый фон под секции-карточки */
+
+    --yellow-soft:  #fff3d6;   /* светло-желтый — фон "лёгких" секций */
+    --yellow-warm:  #ffd166;   /* насыщенный жёлтый — акценты, обводки иконок */
+
+    --green:        #6fa84b;   /* основной зелёный — кнопки, ссылки, акценты */
+    --green-dark:   #3b6b33;   /* тёмно-зелёный — фон "тяжёлых" секций */
+    --green-darker: #2b4e26;   /* ещё темнее — для градиентов и hover */
+
+    --text-dark:    #263524;   /* основной текст — не чёрный, а тёмно-зелёный */
+    --text-muted:   #5b6b55;   /* второстепенный текст */
+
+    --shadow-green: rgba(59, 107, 51, 0.14);
+}
+
+/* ==========================================================================
+   2. БАЗОВЫЕ НАСТРОЙКИ
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--cream);
+}
+
+body {
+    padding-top: 70px;
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.section-subtitle {
+    max-width: 640px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   3. НАВИГАЦИЯ (HEADER)
+   ========================================================================== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px var(--shadow-green);
+    z-index: 9999;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 20px;
+}
+
+.nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.nav a:hover,
+.nav a.active {
+    color: var(--green);
+}
+
+/* ==========================================================================
+   4. ГЛАВНЫЙ БЛОК (HERO)
+   ========================================================================== */
+.shapka {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+    color: var(--white);
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+.shapka::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: var(--yellow-soft); /* переход в цвет следующего блока */
+    clip-path: ellipse(60% 100% at 50% 100%);
+}
+
+.shapka-bam {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 850px;
+    width: 100%;
+    height: auto;
+    gap: 40px;
+    z-index: 2;
+}
+
+.piramidka img {
+    max-width: 220px;
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 25px rgba(255, 209, 102, 0.35);
+}
+
+.infa-shapka h1 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.infa-shapka ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.infa-shapka ul li::before {
+    content: '✦';
+    color: var(--yellow-warm);
+    margin-right: 10px;
+    font-size: 1.4rem;
+    vertical-align: middle;
+}
+
+/* ==========================================================================
+   5. "ПОЧЕМУ РОДИТЕЛИ ВЫБИРАЮТ НАС" — карточки преимуществ
+   ========================================================================== */
+.why-us {
+    background-color: var(--yellow-soft);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.why-us .section-title,
+.why-us .section-subtitle {
+    color: var(--green-dark);
+}
+
+.why-us .section-subtitle {
+    color: var(--text-muted);
+}
+
+.why-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.why-card {
+    flex: 1;
+    min-width: 260px;
+    max-width: 340px;
+    background-color: var(--white);
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 8px 30px var(--shadow-green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(59, 107, 51, 0.08);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px var(--shadow-green);
+    border-color: var(--green);
+}
+
+.why-card img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--yellow-warm);
+    margin-bottom: 22px;
+    background-color: var(--cream);
+    padding: 12px;
+}
+
+.why-card h3 {
+    color: var(--green-dark);
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.why-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   6. "НАШ ПОДХОД" — шаги
+   ========================================================================== */
+.approach {
+    background-color: var(--green-dark);
+    color: var(--white);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.approach .section-title {
+    color: var(--white);
+}
+
+.approach .section-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Раньше картинка шага 3 просто лежала внутри текстовой колонки — на
+   десктопе это растягивало вертикальное (портретное) фото на всю
+   ширину блока и оно выглядело как случайная вставка. Теперь у секции
+   нормальная двухколоночная раскладка: шаги слева, одно фото — справа
+   на всю высоту. Портретному кадру там самое место. */
+.approach-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.approach-list {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.approach-media {
+    position: sticky;
+    top: 110px;
+}
+
+.approach-media img {
+    width: 100%;
+    border-radius: 20px;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: 50% 22%;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+}
+
+.approach-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.approach-step .step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--yellow-warm);
+    color: var(--green-darker);
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.approach-step h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.approach-step p {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+}
+
+
+/* ==========================================================================
+   6.1 ПРАЙС-ЛИСТ
+   ========================================================================== */
+.prices {
+    background-color: var(--white);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.prices .section-title {
+    color: var(--green-dark);
+}
+
+.prices .section-subtitle {
+    color: var(--text-muted);
+}
+
+.price-groups {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.price-group {
+    flex: 1;
+    min-width: 320px;
+    max-width: 460px;
+    background-color: var(--cream);
+    border: 1px solid rgba(59, 107, 51, 0.12);
+    border-radius: 24px;
+    padding: 32px;
+}
+
+.price-group-title {
+    color: var(--green-dark);
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.price-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 16px var(--shadow-green);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.price-row:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px var(--shadow-green);
+}
+
+.price-icon {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.price-info {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.price-name {
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.35;
+}
+
+.price-duration {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.price-value {
+    flex: 0 0 auto;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--green-dark);
+    white-space: nowrap;
+}
+
+.price-note {
+    max-width: 640px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   7. FAQ (аккордеон на нативном <details>/<summary> — без лишнего JS)
+   ========================================================================== */
+.faq {
+    background-color: var(--cream);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.faq .section-title {
+    color: var(--green-dark);
+}
+
+.faq .section-subtitle {
+    color: var(--text-muted);
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.faq-item {
+    background-color: var(--white);
+    border: 1px solid rgba(59, 107, 51, 0.12);
+    border-radius: 16px;
+    padding: 6px 26px;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.faq-item[open] {
+    box-shadow: 0 10px 28px var(--shadow-green);
+    border-color: var(--green);
+}
+
+.faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 18px 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--green);
+    transition: transform 0.3s ease;
+    margin-left: 20px;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    color: var(--text-muted);
+    line-height: 1.65;
+    padding-bottom: 20px;
+}
+
+/* ==========================================================================
+   8. "ЗАПИСЬ" — форма и соцсети
+   ========================================================================== */
+.booking {
+    background-color: var(--yellow-soft);
+    padding: 100px 20px;
+    width: 100%;
+}
+
+.booking-container {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.booking .section-title,
+.booking-form h2 {
+    color: var(--green-dark);
+}
+
+.booking-form {
+    background-color: var(--white);
+    padding: 45px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px var(--shadow-green);
+}
+
+.booking-form p.lead {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+.booking-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.booking-form label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.booking-form input,
+.booking-form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #e2ddc9;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: 0.3s;
+    background-color: var(--cream);
+}
+
+.booking-form textarea {
+    height: 130px;
+    resize: none;
+}
+
+.booking-form input:focus,
+.booking-form textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(111, 168, 75, 0.2);
+    background-color: var(--white);
+}
+
+.booking-form button {
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--green);
+    color: var(--white);
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 6px;
+}
+
+.booking-form button:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+}
+
+/* Honeypot-поле визуально убрано со страницы, но не через display:none —
+   часть ботов проверяет именно это свойство и пропускает скрытые так поля.
+   Сдвиг за пределы экрана надёжнее и человеку абсолютно не заметен. */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    height: 0;
+    overflow: hidden;
+}
+
+.consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.consent input {
+    width: auto;
+    margin-top: 3px;
+}
+
+.consent a {
+    color: var(--green-dark);
+    font-weight: 600;
+}
+
+.social-links {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    background-color: var(--white);
+    border: 1px solid rgba(59, 107, 51, 0.15);
+    color: var(--text-dark);
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    border-color: var(--green);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--shadow-green);
+}
+
+/* ==========================================================================
+   9. ПОДВАЛ (FOOTER)
+   ========================================================================== */
+.footer {
+    background-color: var(--green-darker);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.footer strong {
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.footer-links {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: var(--yellow-warm);
+}
+
+/* ==========================================================================
+   10. АНИМАЦИИ ПОЯВЛЕНИЯ
+   ========================================================================== */
+.hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s ease;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   11. КНОПКА "НАВЕРХ"
+   ========================================================================== */
+.to-top {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--white);
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   11.1 ЮРИДИЧЕСКИЕ СТРАНИЦЫ (политика конфиденциальности, условия)
+   ========================================================================== */
+.legal-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 20px 100px;
+    line-height: 1.7;
+    color: var(--text-dark);
+}
+
+.legal-page h1 {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    color: var(--green-dark);
+}
+
+.legal-page .legal-updated {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 36px;
+}
+
+.legal-page h2 {
+    font-size: 1.3rem;
+    color: var(--green-dark);
+    margin: 36px 0 12px;
+}
+
+.legal-page p,
+.legal-page li {
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.legal-page ul {
+    padding-left: 22px;
+}
+
+.legal-page .legal-todo {
+    background-color: var(--yellow-soft);
+    border: 1px dashed var(--yellow-warm);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+    font-size: 0.92rem;
+    color: var(--text-dark);
+}
+
+.legal-page .back-link {
+    display: inline-block;
+    margin-bottom: 30px;
+    color: var(--green);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.legal-page .back-link:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   11.2 СТРАНИЦЫ ОШИБОК (404, 500 и т.д.)
+   ========================================================================== */
+.error-page {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 100px 20px 140px;
+    text-align: center;
+}
+
+.error-page .error-code {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.error-page h1 {
+    font-size: 1.6rem;
+    color: var(--green-dark);
+    margin-bottom: 16px;
+}
+
+.error-page .error-message {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.error-page .error-home-link {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: var(--green);
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 999px;
+    box-shadow: 0 10px 20px var(--shadow-green);
+    transition: background-color 0.2s ease;
+}
+
+.error-page .error-home-link:hover {
+    background-color: var(--green-dark);
+}
+
+/* ==========================================================================
+   12. МОБИЛЬНАЯ АДАПТИВНОСТЬ
+   ========================================================================== */
+@media (max-width: 768px) {
+    body { padding-top: 90px; }
+    .nav ul { gap: 15px; }
+    .shapka { padding: 70px 15px; }
+    .infa-shapka h1 { font-size: 2.1rem; }
+    .infa-shapka ul { font-size: 1.05rem; }
+
+    .why-us, .approach, .faq, .booking, .prices { padding: 60px 15px; }
+
+    .price-group { padding: 24px 20px; }
+    .price-row { flex-wrap: wrap; }
+    .price-value { margin-left: auto; }
+    .section-title { font-size: 2rem; }
+
+    .approach-step {
+        grid-template-columns: 48px 1fr;
+        gap: 16px;
+    }
+
+    .approach-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .approach-media {
+        position: static;
+        order: -1;
+    }
+
+    .approach-media img {
+        aspect-ratio: 16 / 10;
+    }
+
+    .booking-form { padding: 30px 22px; }
+    .social-links { grid-template-columns: 1fr; }
+}
+
+/* Между 769px и ~980px две колонки ещё слишком тесные для комфортного
+   чтения текста шагов — тоже складываем в одну колонку. */
+@media (min-width: 769px) and (max-width: 980px) {
+    .approach-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .approach-media {
+        position: static;
+        order: -1;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+}

@@ -1,0 +1,37 @@
+# Автоматический прогон тестов на GitHub при каждом push и pull request.
+#
+# Зачем это вообще нужно: раньше тесты (website-app/backend/test_app.py)
+# нужно было не забыть запустить руками перед тем, как что-то менять.
+# Легко забыть, особенно когда правишь мелочь и кажется "и так сойдёт".
+# С этим файлом GitHub сам поднимает чистую машину, ставит зависимости и
+# гоняет тесты при каждом push — если что-то сломалось, ты узнаешь из
+# значка ✅/❌ в репозитории, а не когда сайт уже не работает на проде.
+# Это и называется CI (Continuous Integration) — стандартная практика,
+# и наличие такого файла в репозитории — то, на что смотрят при найме,
+# когда просят показать GitHub.
+name: Тесты
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website-app/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Установить зависимости
+        run: pip install -r requirements.txt
+
+      - name: Прогнать тесты
+        run: python -m unittest test_app.py -v
